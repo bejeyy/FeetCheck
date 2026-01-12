@@ -1,0 +1,32 @@
+CREATE DATABASE shoe_db;
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    image VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE cart (
+    cart_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO products (name, price, image)
+VALUES
+('Nike Dunk', 4999, 'images/dunk.png'),
+('Nike Zoom Vomero 5', '8299', 'images/Vomero5.jpg'),
+('Nike Court Vision Low', '3300', 'images/courtvision.jpg'),
+('Kobe IX Elite Low', 10295, 'images/kobe9.jpg'),
+('Air Jordan 1 Low', '6400', 'images/j1.jpg');

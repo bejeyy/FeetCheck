@@ -1,0 +1,40 @@
+.navbar-brand {
+    transition: transform 0.2s;
+}
+.navbar-brand:hover {
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+/* ICON HOVER */
+.bi-list:hover {
+    cursor: pointer;
+    transform: scale(1.15);
+    transition: transform 0.2s;
+}
+
+a .bi-cart {
+    display: inline-block;
+    transition: transform 0.2s;
+}
+a:hover .bi-cart {
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+/* Style for links */
+.nav-link.login-link,
+.nav-link.signup-link {
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+
+/* Hover effect */
+.nav-link.login-link:hover,
+.nav-link.signup-link:hover {
+    color: #ccc;
+    transform: scale(1.05);
+}

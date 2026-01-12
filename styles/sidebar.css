@@ -1,0 +1,22 @@
+/* Sidebar Menu Items */
+.sidebar-menu .list-group-item {
+    border: none;
+    padding: 12px 16px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+.sidebar-menu .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+}
+.sidebar-menu .list-group-item:active {
+    background-color: #adb5bd !important;
+    color: #0F172A !important;
+    font-weight: bold;
+}
+.sidebar-menu i {
+    font-size: 18px;
+    margin-right: 8px;
+}
