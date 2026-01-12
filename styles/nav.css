@@ -37,4 +37,25 @@ a:hover .bi-cart {
 .nav-link.signup-link:hover {
     color: #ccc;
     transform: scale(1.05);
+    
+    /* Navbar brand hover */
+.navbar-brand {
+  transition: transform 0.2s ease;
+}
+.navbar-brand:hover {
+  transform: scale(1.12);
+  cursor: pointer;
+}
+
+/* Cart & menu icons */
+.bi-cart,
+.bi-list {
+  transition: transform 0.2s ease;
+}
+.bi-cart:hover,
+.bi-list:hover {
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
 }

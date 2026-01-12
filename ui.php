@@ -21,7 +21,17 @@ include "database_files/connection.php";
   <link rel="stylesheet" href="styles/sidebar.css">
 </head>
 
+
+
 <body>
+
+<?php if (isset($_GET['added'])): ?>
+  <div id="cartAlert" class="alert alert-success text-center mx-4 mt-3">
+      ✅ Item added to cart
+  </div>
+<?php endif; ?>
+
+
 
   <!-- Navbar -->
 <nav class="navbar navbar-dark bg-black px-4 d-flex justify-content-between align-items-center sticky-top">
@@ -63,13 +73,13 @@ include "database_files/connection.php";
         <a href="ui.php" class="list-group-item list-group-item-action">
           <i class="bi bi-house me-2"></i> Home
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <i class="bi bi-person-circle"></i> Profile
+       <a href="profile.php" class="list-group-item list-group-item-action">
+         <i class="bi bi-person-circle"></i> Profile
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <i class="bi bi-cart-check"></i> Your Orders
+       <a href="orders.php" class="list-group-item list-group-item-action">
+       <i class="bi bi-cart-check"></i> Your Orders
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
+      <a href="about.php" class="list-group-item list-group-item-action">
           <i class="bi bi-telephone me-2"></i> About us
         </a>
         <a href="database_files/logout.php" class="list-group-item list-group-item-action text-danger">
@@ -129,14 +139,16 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="card-body">
             <h3><?php echo $name; ?></h3>
             <p class="price">₱<?php echo number_format($price, 2); ?></p>
-            <button class="btn btn-dark add-to-cart-btn"
-                data-bs-toggle="modal"
-                data-bs-target="#addToCartModal"
-                data-name="<?php echo $name; ?>"
-                data-price="<?php echo $price; ?>"
-                data-image="<?php echo $image; ?>">
-                Add to Cart
-            </button>
+           <button class="btn btn-dark add-to-cart-btn"
+    data-bs-toggle="modal"
+    data-bs-target="#addToCartModal"
+    data-id="<?php echo $id; ?>"
+    data-name="<?php echo $name; ?>"
+    data-price="<?php echo $price; ?>"
+    data-image="<?php echo $image; ?>">
+    Add to Cart
+</button>
+
         </div>
     </div>
 <?php
@@ -187,6 +199,16 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <label>Email</label>
                         <input type="email" class="form-control" name="email" required>
                     </div>
+                     <div class="mb-3">
+            <label>Contact Number</label>
+            <input
+                type="text"
+                class="form-control"
+                name="contact_num"
+                placeholder="09XXXXXXXXX"
+                required
+            >
+        </div>
                     <div class="mb-3">
                         <label>Password</label>
                         <input type="password" class="form-control" name="password" required>
@@ -198,36 +220,46 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 </div>
 
-  <!-- Add to Cart Modal -->
+
+<!-- Add to Cart Modal -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <form action="addtocart.php" method="POST" class="modal-content">
 
-    <div class="modal-header">
+      <div class="modal-header">
         <h5 class="modal-title">Add to Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <img id="modalProductImage" src="" class="img-fluid rounded-top" style="width:100%; max-height:280px; object-fit:cover;">
+      <img id="modalProductImage" src="" class="img-fluid rounded-top"
+           style="width:100%; max-height:280px; object-fit:cover;">
 
       <div class="modal-body text-center">
         <h5 id="modalProductName"></h5>
         <p class="fw-bold">₱<span id="modalProductPrice"></span></p>
 
+        <!-- HIDDEN INPUTS -->
+        <input type="hidden" name="product_id" id="modalProductId">
+<input type="hidden" name="name" id="modalProductNameInput">
+        <input type="hidden" name="price" id="modalProductPriceInput">
+        <input type="hidden" name="image" id="modalProductImageInput">
+
         <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
           <label class="fw-bold">Quantity:</label>
-          <input type="number" id="quantity" class="form-control w-25" value="1" min="1">
+          <input type="number" name="quantity" id="quantity"
+                 class="form-control w-25" value="1" min="1" required>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-dark">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-dark">Confirm</button>
       </div>
 
-    </div>
+    </form>
   </div>
 </div>
+
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -235,6 +267,27 @@ while ($row = mysqli_fetch_assoc($result)) {
     crossorigin="anonymous"></script>
   <script src="script/addbuttonscript.js"></script>
   <script src="script/alerts.js"></script>
+  <script>
+const alertBox = document.getElementById('cartAlert');
+if (alertBox) {
+  setTimeout(() => {
+    alertBox.style.opacity = '0';
+    setTimeout(() => alertBox.remove(), 500);
+  }, 3000);
+}
+</script>
+
+<script>
+  if (window.location.search.includes('added=1')) {
+    setTimeout(() => {
+      const url = new URL(window.location);
+      url.searchParams.delete('added');
+      window.history.replaceState({}, document.title, url.pathname);
+    }, 3100); // slightly after alert fades
+  }
+</script>
+
+
 </body>
 
 </html>

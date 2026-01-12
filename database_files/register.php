@@ -1,15 +1,18 @@
 <?php
 include "connection.php";
 
-$name     = $_POST['name'];
-$email    = $_POST['email'];
-$password = $_POST['password'];
+$full_name  = $_POST['name'];
+$email      = $_POST['email'];
+$contact    = $_POST['contact_num'];
+$password   = $_POST['password'];
 
-/* Check if email already exists */
-$email_check = "SELECT user_id FROM users WHERE email='$email'";
-$result = mysqli_query($conn, $email_check);
+/* Check if email exists */
+$check = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+$check->bind_param("s", $email);
+$check->execute();
+$check->store_result();
 
-if (mysqli_num_rows($result) > 0) {
+if ($check->num_rows > 0) {
     header("Location: ../ui.php?signup=exist");
     exit;
 }
@@ -18,14 +21,16 @@ if (mysqli_num_rows($result) > 0) {
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 /* Insert user */
-$sql = "INSERT INTO users (full_name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+$stmt = $conn->prepare("
+    INSERT INTO users (full_name, email, password, contact_num)
+    VALUES (?, ?, ?, ?)
+");
+$stmt->bind_param("ssss", $full_name, $email, $hashed_password, $contact);
 
-if (mysqli_query($conn, $sql)) {
-    // Redirect with success message
+if ($stmt->execute()) {
     header("Location: ../ui.php?signup=success");
     exit;
 } else {
-    // Redirect with error message
     header("Location: ../ui.php?signup=error");
     exit;
 }

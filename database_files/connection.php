@@ -1,5 +1,5 @@
 <?php
-$DBHost = "localhost:3307";
+$DBHost = "localhost";
 $DBUser = "root";
 $DBPass = "";
 $DBName = "shoe_db";

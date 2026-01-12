@@ -19,4 +19,14 @@
 .sidebar-menu i {
     font-size: 18px;
     margin-right: 8px;
+
+    /* Sidebar hover animation */
+.sidebar-menu .list-group-item {
+  transition: background-color 0.2s, padding-left 0.2s;
+}
+
+.sidebar-menu .list-group-item:hover {
+  padding-left: 22px;
+}
+
 }

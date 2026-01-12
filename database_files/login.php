@@ -2,20 +2,25 @@
 session_start();
 include "connection.php";
 
-$email    = $_POST['email'];
+$email    = trim($_POST['email']);
 $password = $_POST['password'];
 
-/* Find user */
-$sql = "SELECT * FROM users WHERE email='$email'";
-$result = mysqli_query($conn, $sql);
+$stmt = $conn->prepare("
+    SELECT user_id, full_name, password
+    FROM users
+    WHERE email = ?
+");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if (mysqli_num_rows($result) == 1) {
-    $user = mysqli_fetch_assoc($result);
-    
+if ($result->num_rows === 1) {
+    $user = $result->fetch_assoc();
+
     if (password_verify($password, $user['password'])) {
-        // Set session variables
-        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['user_id']   = $user['user_id'];
         $_SESSION['user_name'] = $user['full_name'];
+
         header("Location: ../ui.php?login=success");
         exit;
     } else {
@@ -26,4 +31,3 @@ if (mysqli_num_rows($result) == 1) {
     header("Location: ../ui.php?login=notfound");
     exit;
 }
-?>
