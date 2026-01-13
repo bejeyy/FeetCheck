@@ -90,9 +90,25 @@ include "database_files/connection.php";
   </div>
 
   <!-- Carousel -->
-  <div class="carousel-container">
-    <div id="heroCarousel" class="carousel slide carousel-fade my-4" data-bs-ride="carousel">
-      <div class="carousel-inner">
+<div class="carousel-container">
+  <div id="heroCarousel" class="carousel slide carousel-fade my-4" data-bs-ride="carousel">
+
+    <!-- ✅ KOBE QUOTE -->
+    <div class="hero-quote">
+      <p class="quote-text">
+        “Everything negative — pressure, challenges — is an opportunity for me to rise.”
+      </p>
+      <span class="quote-author">— Kobe Bryant</span>
+    </div>
+
+    <div class="carousel-inner">
+      ...
+    </div>
+
+  </div>
+</div>
+
+    <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="images/carouselpic.png" class="d-block w-100" alt="Shoe 1">
         </div>

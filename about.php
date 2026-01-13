@@ -72,7 +72,7 @@ session_start();
             <i class="bi bi-envelope me-2"></i> Contact Us
         </h5>
         <p class="mb-1">📧 Email: support@feetcheck.com</p>
-        <p class="mb-1">📞 Phone: +63 900 123 4567</p>
+        <p class="mb-1">📞 Phone: +63 915 342 5619</p>
     </div>
 
     <div class="text-center mt-5 text-muted">

@@ -83,3 +83,43 @@ body {
     transform: scale(1.04);
 }
 
+.hero-quote {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 16px 26px;
+  border-radius: 14px;
+  text-align: center;
+  max-width: 85%;
+  z-index: 10; /* 🔥 THIS MAKES SURE IT’S ABOVE THE IMAGE */
+}
+
+  animation: fadeUp 1.2s ease;
+}
+
+.hero-quote .quote-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.hero-quote .quote-author {
+  display: block;
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.carousel-container,
+#heroCarousel {
+  position: relative;
+}
+
+

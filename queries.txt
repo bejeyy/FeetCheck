@@ -30,3 +30,27 @@ VALUES
 ('Nike Court Vision Low', '3300', 'images/courtvision.jpg'),
 ('Kobe IX Elite Low', 10295, 'images/kobe9.jpg'),
 ('Air Jordan 1 Low', '6400', 'images/j1.jpg');
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+CREATE TABLE order_items (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+ALTER TABLE users
+ADD contact_num VARCHAR(20) NOT NULL AFTER created_at;
