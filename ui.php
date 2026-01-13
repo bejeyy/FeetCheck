@@ -90,53 +90,49 @@ include "database_files/connection.php";
   </div>
 
   <!-- Carousel -->
+<!-- Carousel -->
 <div class="carousel-container">
+
   <div id="heroCarousel" class="carousel slide carousel-fade my-4" data-bs-ride="carousel">
 
-    <!-- ✅ KOBE QUOTE -->
-    <div class="hero-quote">
-      <p class="quote-text">
-        “Everything negative — pressure, challenges — is an opportunity for me to rise.”
-      </p>
-      <span class="quote-author">— Kobe Bryant</span>
-    </div>
+    <!-- 🔥 KOBE QUOTE (INSIDE CAROUSEL) -->
+   <div class="hero-quote">
+  <p class="quote-text" id="quoteText"></p>
+  <span class="quote-author" id="quoteAuthor"></span>
+</div>
+
 
     <div class="carousel-inner">
-      ...
+      <div class="carousel-item active">
+        <img src="images/carouselpic.png" class="d-block w-100" alt="Shoe 1">
+      </div>
+
+      <div class="carousel-item">
+        <img src="images/shoepic.jpg" class="d-block w-100" alt="Shoe 2">
+      </div>
+
+      <div class="carousel-item">
+        <img src="images/dbook.jpg" class="d-block w-100" alt="Shoe 3">
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
     </div>
 
   </div>
 </div>
 
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="images/carouselpic.png" class="d-block w-100" alt="Shoe 1">
-        </div>
-        <div class="carousel-item">
-          <img src="images/shoepic.jpg" class="d-block w-100" alt="Shoe 2">
-        </div>
-        <div class="carousel-item">
-          <img src="images/dbook.jpg" class="d-block w-100" alt="Shoe 3">
-        </div>
-      </div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
-          aria-current="true"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-      </div>
-    </div>
-  </div>
 
   <!-- PRODUCT CARDS -->
   <div class="card-container my-4">
@@ -303,6 +299,60 @@ if (alertBox) {
   }
 </script>
 
+<script>
+const quotes = [
+  {
+    text: "Everything negative — pressure, challenges — is an opportunity for me to rise.",
+    author: "Kobe Bryant"
+  },
+  {
+    text: "The most important thing is to try and inspire people so that they can be great in whatever they want to do.",
+    author: "Kobe Bryant"
+  },
+  {
+    text: "I've failed over and over and over again in my life. And that is why I succeed.",
+    author: "Michael Jordan"
+  },
+  {
+    text: "Talent wins games, but teamwork and intelligence win championships.",
+    author: "Michael Jordan"
+  },
+  {
+    text: "I like criticism. It makes you strong.",
+    author: "LeBron James"
+  },
+  {
+    text: "You can't be afraid to fail. It's the only way you succeed.",
+    author: "LeBron James"
+  }
+];
+
+let currentQuote = 0;
+const quoteText = document.getElementById("quoteText");
+const quoteAuthor = document.getElementById("quoteAuthor");
+
+function showQuote(index) {
+  quoteText.style.opacity = 0;
+  quoteAuthor.style.opacity = 0;
+
+  setTimeout(() => {
+    quoteText.textContent = `"${quotes[index].text}"`;
+    quoteAuthor.textContent = `— ${quotes[index].author}`;
+
+    quoteText.style.opacity = 1;
+    quoteAuthor.style.opacity = 1;
+  }, 300);
+}
+
+// Initial quote
+showQuote(currentQuote);
+
+// Rotate every 5 seconds
+setInterval(() => {
+  currentQuote = (currentQuote + 1) % quotes.length;
+  showQuote(currentQuote);
+}, 5000);
+</script>
 
 </body>
 
