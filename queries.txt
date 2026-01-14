@@ -5,6 +5,7 @@ CREATE TABLE users (
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    contact_num VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -23,14 +24,6 @@ CREATE TABLE cart (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO products (name, price, image)
-VALUES
-('Nike Dunk', 4999, 'images/dunk.png'),
-('Nike Zoom Vomero 5', '8299', 'images/Vomero5.jpg'),
-('Nike Court Vision Low', '3300', 'images/courtvision.jpg'),
-('Kobe IX Elite Low', 10295, 'images/kobe9.jpg'),
-('Air Jordan 1 Low', '6400', 'images/j1.jpg');
-
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -39,7 +32,6 @@ CREATE TABLE orders (
 
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
 
 CREATE TABLE order_items (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,6 +43,14 @@ CREATE TABLE order_items (
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
+
+INSERT INTO products (name, price, image)
+VALUES
+('Nike Dunk Low', 4999, 'images/dunklow.jpg'),
+('Nike Zoom Vomero 5', '8299', 'images/Vomero5.jpg'),
+('Nike Court Vision Low', '3300', 'images/courtvision.jpg'),
+('Kobe IX Elite Low', 10295, 'images/kobe9.jpg'),
+('Air Jordan 1 Low', '6400', 'images/j1.jpg');
 
 ALTER TABLE users
 ADD contact_num VARCHAR(20) NOT NULL AFTER created_at;

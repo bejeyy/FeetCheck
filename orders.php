@@ -23,14 +23,23 @@ $orders = mysqli_stmt_get_result($stmt);
     <title>Your Orders</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/cartstyle.css">
+    
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-black px-4">
-    <a href="ui.php" class="text-white text-decoration-none fw-bold fs-4">
-        ← Back
-    </a>
-</nav>
+<nav class="navbar navbar-dark bg-black px-4 sticky-top">
+        <div class="d-flex align-items-center">
+            <a href="ui.php" class="text-white fs-4 me-2 d-flex align-items-center">
+                <i class="bi bi-caret-left-fill"></i>
+            </a>
+            <span class="navbar-brand fw-bold fs-4 mb-0">
+                Back
+            </span>
+        </div>
+    </nav>
 
 <div class="container my-4">
     <h3 class="fw-bold mb-4">🧾 Your Orders</h3>

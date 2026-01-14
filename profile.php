@@ -9,12 +9,13 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT full_name, email FROM users WHERE user_id = ?";
+$sql = "SELECT full_name, email, contact_num FROM users WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,11 +26,14 @@ $user = mysqli_fetch_assoc($result);
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- ✅ Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/cartstyle.css">
 
     <!-- ✅ Font styling -->
     <style>
@@ -51,11 +55,16 @@ $user = mysqli_fetch_assoc($result);
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-black px-4">
-    <a href="ui.php" class="text-white text-decoration-none fw-bold fs-4">
-        ← Back
-    </a>
-</nav>
+<nav class="navbar navbar-dark bg-black px-4 sticky-top">
+        <div class="d-flex align-items-center">
+            <a href="ui.php" class="text-white fs-4 me-2 d-flex align-items-center">
+                <i class="bi bi-caret-left-fill"></i>
+            </a>
+            <span class="navbar-brand fw-bold fs-4 mb-0">
+                Back
+            </span>
+        </div>
+    </nav>
 
 <div class="container my-5" style="max-width:500px;">
     <h3 class="mb-4">Your Profile</h3>
@@ -77,6 +86,14 @@ $user = mysqli_fetch_assoc($result);
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="text"
+                   class="form-control"
+                   value="<?= htmlspecialchars($user['contact_num']); ?>"
+                   disabled>
+        </div>
+
+        <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="email"
                    class="form-control"
@@ -89,6 +106,14 @@ $user = mysqli_fetch_assoc($result);
                 data-bs-toggle="modal"
                 data-bs-target="#confirmUpdateModal">
             Save Changes
+        </button>
+
+        <hr class="my-4">
+        <button type="button"
+                class="btn btn-danger w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteModal">
+            Delete Account
         </button>
     </form>
 </div>
@@ -116,10 +141,45 @@ $user = mysqli_fetch_assoc($result);
                     Yes, Save
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Confirm Account Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p class="mb-0">
+                    Are you sure you want to delete your account?<br>
+                    <strong>This action cannot be undone.</strong>
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <form action="database_files/delete_account.php" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        Yes, Delete
+                    </button>
+                </form>
+            </div>
 
         </div>
     </div>
 </div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

@@ -22,7 +22,6 @@ include "database_files/connection.php";
 </head>
 
 
-
 <body>
 
 <?php if (isset($_GET['added'])): ?>
@@ -90,7 +89,6 @@ include "database_files/connection.php";
   </div>
 
   <!-- Carousel -->
-<!-- Carousel -->
 <div class="carousel-container">
 
   <div id="heroCarousel" class="carousel slide carousel-fade my-4" data-bs-ride="carousel">
@@ -211,16 +209,20 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <label>Email</label>
                         <input type="email" class="form-control" name="email" required>
                     </div>
-                     <div class="mb-3">
-            <label>Contact Number</label>
-            <input
-                type="text"
-                class="form-control"
-                name="contact_num"
-                placeholder="09XXXXXXXXX"
-                required
-            >
-        </div>
+                    <div class="mb-3">
+                        <label>Contact Number</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="contact_num"
+                          placeholder="09XXXXXXXXX"
+                          pattern="[0-9]{11}"
+                          maxlength="11"
+                          inputmode="numeric"
+                          required
+                          title="Please enter exactly 11 digits (numbers only)"
+                      >
+                    </div>
                     <div class="mb-3">
                         <label>Password</label>
                         <input type="password" class="form-control" name="password" required>
@@ -252,14 +254,14 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         <!-- HIDDEN INPUTS -->
         <input type="hidden" name="product_id" id="modalProductId">
-<input type="hidden" name="name" id="modalProductNameInput">
+        <input type="hidden" name="name" id="modalProductNameInput">
         <input type="hidden" name="price" id="modalProductPriceInput">
         <input type="hidden" name="image" id="modalProductImageInput">
 
         <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
           <label class="fw-bold">Quantity:</label>
           <input type="number" name="quantity" id="quantity"
-                 class="form-control w-25" value="1" min="1" required>
+                 class="form-control w-25" value="1" min="1" max="5" required>
         </div>
       </div>
 
@@ -271,7 +273,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     </form>
   </div>
 </div>
-
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

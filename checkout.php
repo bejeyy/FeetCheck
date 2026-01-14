@@ -1,44 +1,70 @@
 <?php
 session_start();
-include __DIR__ . "/database_files/connection.php";
+include "database_files/connection.php";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ui.php");
     exit;
 }
 
-if (empty($_SESSION['cart'])) {
+// Get cart from database
+$stmt = $conn->prepare("
+    SELECT c.product_id, c.quantity, p.price
+    FROM cart c
+    JOIN products p ON c.product_id = p.product_id
+    WHERE c.user_id = ?
+");
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$cart = [];
+while ($row = $result->fetch_assoc()) {
+    $cart[$row['product_id']] = [
+        'quantity' => $row['quantity'],
+        'price' => $row['price']
+    ];
+}
+
+if (empty($cart)) {
     header("Location: cart.php");
     exit;
 }
 
 $user_id = (int) $_SESSION['user_id'];
-$cart = $_SESSION['cart'];
 
+// Calculate total
 $total = 0;
 foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
 
-/* CREATE ORDER */
-mysqli_query($conn, "INSERT INTO orders (user_id, total) VALUES ($user_id, $total)");
-$order_id = mysqli_insert_id($conn);
+// Create order
+$stmt_order = $conn->prepare("INSERT INTO orders (user_id, total) VALUES (?, ?)");
+$stmt_order->bind_param("id", $user_id, $total);
+$stmt_order->execute();
+$order_id = $stmt_order->insert_id;
 
-/* SAVE ORDER ITEMS */
+// Save order items
+$stmt_item = $conn->prepare("
+    INSERT INTO order_items (order_id, product_id, quantity, price)
+    VALUES (?, ?, ?, ?)
+");
+
 foreach ($cart as $product_id => $item) {
-    $product_id = (int) $product_id;
-    $qty = (int) $item['quantity'];
-    $price = (float) $item['price'];
+    $pid = (int)$product_id;
+    $qty = (int)$item['quantity'];
+    $price = (float)$item['price'];
 
-    mysqli_query($conn, "
-        INSERT INTO order_items (order_id, product_id, quantity, price)
-        VALUES ($order_id, $product_id, $qty, $price)
-    ");
+    $stmt_item->bind_param("iiid", $order_id, $pid, $qty, $price);
+    $stmt_item->execute();
 }
 
-/* CLEAR CART */
-unset($_SESSION['cart']);
+// Clear cart from database
+$stmt_clear = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
+$stmt_clear->bind_param("i", $user_id);
+$stmt_clear->execute();
 
+// Redirect to success
 header("Location: ordersuccess.php");
 exit;
-
